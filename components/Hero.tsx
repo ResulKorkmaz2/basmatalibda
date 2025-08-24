@@ -122,7 +122,7 @@ const Hero = () => {
               className="inline-flex items-center bg-gradient-to-r from-yellow-50 to-gold-50 border border-yellow-200 rounded-full px-4 py-2 mb-4 lg:mb-6 shadow-sm"
             >
               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400 ml-2" />
-              <span className="text-sm font-medium text-yellow-800">أفضل خدمة في الرياض</span>
+              <span className="text-base font-medium text-yellow-800">أفضل خدمة في الرياض</span>
             </motion.div>
 
             {/* Main Title - Mobile First */}
@@ -132,10 +132,10 @@ const Hero = () => {
               transition={{ delay: 0.6, duration: 0.6 }}
               className="mb-4 lg:mb-6"
             >
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 lg:mb-3 text-gray-900 leading-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-3 lg:mb-4 text-gray-900 leading-tight">
                 بصمة لابداع
               </h1>
-              <p className="text-base sm:text-lg md:text-xl text-primary-600 font-semibold mb-3 lg:mb-4">
+              <p className="text-lg sm:text-xl md:text-2xl text-primary-600 font-semibold mb-4 lg:mb-5">
                 اشراف ابو باسل • خدمات المقاولات والدهانات
               </p>
             </motion.div>
@@ -145,7 +145,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.6 }}
-              className="text-base sm:text-lg text-gray-600 mb-6 lg:mb-8 leading-relaxed max-w-md lg:max-w-lg mx-auto lg:mx-0"
+              className="text-lg sm:text-xl text-gray-600 mb-6 lg:mb-8 leading-relaxed max-w-md lg:max-w-lg mx-auto lg:mx-0"
             >
               جودة عالية وإتقان في العمل مع أفضل المواد والخبرة العملية
             </motion.p>
@@ -159,7 +159,7 @@ const Hero = () => {
             >
               <button
                 onClick={scrollToContact}
-                className="w-full sm:w-auto btn-primary flex items-center justify-center space-x-2 space-x-reverse px-6 py-3 font-bold text-base shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                className="w-full sm:w-auto btn-primary flex items-center justify-center space-x-2 space-x-reverse px-6 py-4 font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
               >
                 <Phone className="w-5 h-5" />
                 <span>اتصل الآن: 0573677385</span>
@@ -167,7 +167,7 @@ const Hero = () => {
 
               <button
                 onClick={scrollToServices}
-                className="w-full sm:w-auto bg-white border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
+                className="w-full sm:w-auto bg-white border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 text-lg"
               >
                 تصفح خدماتنا
               </button>

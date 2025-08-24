@@ -98,7 +98,7 @@ const Services = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
+              className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6"
             >
               <span className="bg-gradient-to-r from-gray-900 via-primary-800 to-gray-900 bg-clip-text text-transparent">
                 خدماتنا المتميزة
@@ -212,10 +212,10 @@ const Services = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-primary-50/30 to-transparent rounded-b-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
                 <div className="relative z-10">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4 leading-tight group-hover:text-primary-800 transition-colors duration-300">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 leading-tight group-hover:text-primary-800 transition-colors duration-300">
                     {service.title}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed text-sm mb-6 group-hover:text-gray-700 transition-colors duration-300">
+                  <p className="text-gray-600 leading-relaxed text-base mb-6 group-hover:text-gray-700 transition-colors duration-300">
                     {service.description}
                   </p>
 
@@ -223,7 +223,7 @@ const Services = () => {
                   <div className="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transform translate-y-0 lg:translate-y-4 lg:group-hover:translate-y-0 transition-all duration-500">
                     <Link 
                       href={service.url}
-                      className="inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl text-sm font-semibold shadow-lg hover:shadow-xl transition-all duration-300 w-full lg:w-auto"
+                      className="inline-flex items-center justify-center px-4 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 w-full lg:w-auto"
                     >
                       <span>اعرف المزيد</span>
                       <svg className="w-4 h-4 mr-2 hover:transform hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
