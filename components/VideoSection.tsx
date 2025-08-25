@@ -6,8 +6,8 @@ import { Play, Pause, Volume2, VolumeX, RotateCcw, Loader } from 'lucide-react'
 
 const VideoSection = () => {
   const [videoStates, setVideoStates] = useState([
-    { isPlaying: false, isMuted: true, isEnded: false, isLoaded: false, isInView: false, isLoading: false, hasError: false },
-    { isPlaying: false, isMuted: true, isEnded: false, isLoaded: false, isInView: false, isLoading: false, hasError: false }
+    { isPlaying: false, isMuted: true, isEnded: false, isLoaded: false, isInView: false, isLoading: false, hasError: false, showControls: false },
+    { isPlaying: false, isMuted: true, isEnded: false, isLoaded: false, isInView: false, isLoading: false, hasError: false, showControls: false }
   ])
   
   const videoRefs = [useRef<HTMLVideoElement>(null), useRef<HTMLVideoElement>(null)]
@@ -197,6 +197,22 @@ const VideoSection = () => {
     }
   }, [videoStates, loadVideo])
 
+  // Video container click handler - toggle controls visibility
+  const handleVideoClick = (index: number) => {
+    setVideoStates(prev => prev.map((state, i) => 
+      i === index ? { ...state, showControls: !state.showControls } : state
+    ))
+    
+    // 3 saniye sonra controls'ı gizle (eğer video oynatılıyorsa)
+    if (!videoStates[index].showControls) {
+      setTimeout(() => {
+        setVideoStates(prev => prev.map((state, i) => 
+          i === index && state.isPlaying ? { ...state, showControls: false } : state
+        ))
+      }, 3000)
+    }
+  }
+
   const videos = [
     {
       src: '/video2.mp4',
@@ -314,7 +330,8 @@ const VideoSection = () => {
                 {/* Video */}
                 <div className="relative z-10 p-6">
                   <div 
-                    className="relative rounded-2xl overflow-hidden group/video"
+                    className="relative rounded-2xl overflow-hidden group/video cursor-pointer"
+                    onClick={() => handleVideoClick(index)}
                     onMouseEnter={() => {
                       // Mouse hover ile de otomatik başlat (sadece yüklenmişse)
                       const video = videoRefs[index].current
@@ -323,16 +340,6 @@ const VideoSection = () => {
                         video.play().catch(() => {
                           console.log('Hover play prevented for video', index)
                         })
-                      }
-                    }}
-                    onMouseLeave={() => {
-                      // Mouse çıkınca duraklat (opsiyonel - kullanıcı deneyimine göre)
-                      const video = videoRefs[index].current
-                      if (video && !video.paused && videoStates[index].isInView) {
-                        // Sadece viewport dışındaysa duraklat, viewport içindeyse devam etsin
-                        if (!videoStates[index].isInView) {
-                          video.pause()
-                        }
                       }
                     }}
                   >
@@ -355,7 +362,10 @@ const VideoSection = () => {
                           </div>
                           <p className="text-gray-600 text-sm mb-2">خطأ في تحميل الفيديو</p>
                           <button 
-                            onClick={() => loadVideo(index)}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              loadVideo(index)
+                            }}
                             className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm hover:bg-primary-700 transition-colors"
                           >
                             إعادة المحاولة
@@ -392,13 +402,18 @@ const VideoSection = () => {
                       متصفحك لا يدعم تشغيل الفيديو
                     </video>
 
-                    {/* Video Controls Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20 opacity-0 group-hover/video:opacity-100 transition-all duration-300">
+                    {/* Video Controls Overlay - Only show when clicked */}
+                    <div className={`absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20 transition-all duration-300 ${
+                      videoStates[index].showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                    }`}>
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="flex items-center space-x-4 space-x-reverse">
                           {/* Play/Pause Button */}
                           <button
-                            onClick={() => handlePlayPauseOptimized(index)}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handlePlayPauseOptimized(index)
+                            }}
                             disabled={videoStates[index].isLoading}
                             className="w-16 h-16 bg-white/95 backdrop-blur-lg hover:bg-white rounded-full flex items-center justify-center shadow-2xl transform hover:scale-110 transition-all duration-300 border border-white/50 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
@@ -414,7 +429,10 @@ const VideoSection = () => {
                           {/* Restart Button (only show when ended) */}
                           {videoStates[index].isEnded && (
                             <button
-                              onClick={() => handleRestart(index)}
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                handleRestart(index)
+                              }}
                               className="w-14 h-14 bg-white/95 backdrop-blur-lg hover:bg-white rounded-full flex items-center justify-center shadow-xl transform hover:scale-110 transition-all duration-300 border border-white/50"
                             >
                               <RotateCcw className="w-6 h-6 text-blue-600" />
@@ -426,7 +444,10 @@ const VideoSection = () => {
                       {/* Volume Control */}
                       <div className="absolute bottom-6 right-6">
                         <button
-                          onClick={() => handleMuteToggle(index)}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleMuteToggle(index)
+                          }}
                           className="w-12 h-12 bg-white/95 backdrop-blur-lg hover:bg-white rounded-xl flex items-center justify-center shadow-xl transition-all duration-300 border border-white/30"
                         >
                           {videoStates[index].isMuted ? (
@@ -437,48 +458,50 @@ const VideoSection = () => {
                         </button>
                       </div>
 
-                      {/* Status Badge */}
-                      <div className="absolute top-6 left-6">
-                        <div className={`px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-lg border transition-all duration-300 ${
-                          videoStates[index].isLoading
-                            ? 'bg-yellow-500/90 text-white border-yellow-400/50'
-                            : videoStates[index].hasError
-                            ? 'bg-red-500/90 text-white border-red-400/50'
-                            : videoStates[index].isPlaying
-                            ? 'bg-green-500/90 text-white border-green-400/50'
-                            : videoStates[index].isEnded
-                            ? 'bg-blue-500/90 text-white border-blue-400/50'
-                            : videoStates[index].isLoaded
-                            ? 'bg-white/90 text-gray-700 border-white/50'
-                            : 'bg-gray-500/90 text-white border-gray-400/50'
-                        }`}>
-                          {videoStates[index].isLoading
-                            ? '⏳ يتم التحميل'
-                            : videoStates[index].hasError
-                            ? '❌ خطأ'
-                            : videoStates[index].isPlaying
-                            ? '⏸ مشغل تلقائياً'
-                            : videoStates[index].isEnded
-                            ? '🔄 انتهى'
-                            : videoStates[index].isLoaded && videoStates[index].isInView
-                            ? '▶ تشغيل تلقائي'
-                            : videoStates[index].isLoaded
-                            ? '💤 جاهز للتشغيل'
-                            : '📱 اقترب للتحميل'
-                          }
+                      {/* Status Badge - Only show when needed */}
+                      {(videoStates[index].isLoading || videoStates[index].hasError || videoStates[index].showControls || (!videoStates[index].isLoaded && !videoStates[index].isInView)) && (
+                        <div className="absolute top-6 left-6">
+                          <div className={`px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-lg border transition-all duration-300 ${
+                            videoStates[index].isLoading
+                              ? 'bg-yellow-500/90 text-white border-yellow-400/50'
+                              : videoStates[index].hasError
+                              ? 'bg-red-500/90 text-white border-red-400/50'
+                              : videoStates[index].isPlaying && videoStates[index].showControls
+                              ? 'bg-green-500/90 text-white border-green-400/50'
+                              : videoStates[index].isEnded && videoStates[index].showControls
+                              ? 'bg-blue-500/90 text-white border-blue-400/50'
+                              : videoStates[index].isLoaded && videoStates[index].showControls
+                              ? 'bg-white/90 text-gray-700 border-white/50'
+                              : 'bg-gray-500/90 text-white border-gray-400/50'
+                          }`}>
+                            {videoStates[index].isLoading
+                              ? '⏳ يتم التحميل'
+                              : videoStates[index].hasError
+                              ? '❌ خطأ'
+                              : videoStates[index].isPlaying && videoStates[index].showControls
+                              ? '⏸ مشغل تلقائياً'
+                              : videoStates[index].isEnded && videoStates[index].showControls
+                              ? '🔄 انتهى'
+                              : videoStates[index].isLoaded && videoStates[index].showControls
+                              ? '▶ اضغط للتحكم'
+                              : '📱 اقترب للتحميل'
+                            }
+                          </div>
                         </div>
-                      </div>
+                      )}
 
-                      {/* Sound Status */}
-                      <div className="absolute top-6 right-6">
-                        <div className={`px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-lg border transition-all duration-300 ${
-                          videoStates[index].isMuted
-                            ? 'bg-gray-500/90 text-white border-gray-400/50'
-                            : 'bg-green-500/90 text-white border-green-400/50'
-                        }`}>
-                          {videoStates[index].isMuted ? '🔇 صامت' : '🔊 صوت'}
+                      {/* Sound Status - Only show when controls are visible */}
+                      {videoStates[index].showControls && (
+                        <div className="absolute top-6 right-6">
+                          <div className={`px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-lg border transition-all duration-300 ${
+                            videoStates[index].isMuted
+                              ? 'bg-gray-500/90 text-white border-gray-400/50'
+                              : 'bg-green-500/90 text-white border-green-400/50'
+                          }`}>
+                            {videoStates[index].isMuted ? '🔇 صامت' : '🔊 صوت'}
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                   </div>
 
