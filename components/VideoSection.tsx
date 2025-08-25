@@ -63,7 +63,7 @@ const VideoSection = () => {
     ))
   }
 
-  // Intersection Observer for lazy loading
+  // Intersection Observer for lazy loading + autoplay
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -75,13 +75,34 @@ const VideoSection = () => {
                 i === index ? { ...state, isInView: true, isLoading: true } : state
               ))
               loadVideo(index)
+            } else if (entry.isIntersecting && videoStates[index].isLoaded) {
+              // Video yüklenmişse otomatik başlat (sessiz modda)
+              const video = videoRefs[index].current
+              if (video && video.paused) {
+                video.muted = true
+                video.play().catch(() => {
+                  console.log('Autoplay prevented for video', index)
+                })
+              }
+              setVideoStates(prev => prev.map((state, i) => 
+                i === index ? { ...state, isInView: true } : state
+              ))
+            } else if (!entry.isIntersecting) {
+              // Video viewport'tan çıkınca duraklat (performans için)
+              const video = videoRefs[index].current
+              if (video && !video.paused) {
+                video.pause()
+              }
+              setVideoStates(prev => prev.map((state, i) => 
+                i === index ? { ...state, isInView: false } : state
+              ))
             }
           }
         })
       },
       {
-        threshold: 0.3, // Video %30'u görününce yükle
-        rootMargin: '50px' // 50px öncesinden hazırla
+        threshold: 0.4, // Video %40'ı görününce yükle/oynat
+        rootMargin: '100px 0px' // Yukarıdan aşağıdan 100px margin
       }
     )
 
@@ -121,14 +142,15 @@ const VideoSection = () => {
           i === index ? { ...state, isLoaded: true, isLoading: false } : state
         ))
         
-        // Viewport'ta ise otomatik başlat
+        // Viewport'ta ise otomatik başlat (sessiz modda)
         if (videoStates[index].isInView) {
           setTimeout(() => {
+            video.muted = true // Sessiz modda başlat
             video.play().catch(() => {
               // Autoplay engellenmişse sessizce devam et
               console.log('Autoplay prevented for video', index)
             })
-          }, 500)
+          }, 300) // Daha hızlı başlatma
         }
       })
 
@@ -291,7 +313,29 @@ const VideoSection = () => {
                 
                 {/* Video */}
                 <div className="relative z-10 p-6">
-                  <div className="relative rounded-2xl overflow-hidden group/video">
+                  <div 
+                    className="relative rounded-2xl overflow-hidden group/video"
+                    onMouseEnter={() => {
+                      // Mouse hover ile de otomatik başlat (sadece yüklenmişse)
+                      const video = videoRefs[index].current
+                      if (video && videoStates[index].isLoaded && video.paused) {
+                        video.muted = true
+                        video.play().catch(() => {
+                          console.log('Hover play prevented for video', index)
+                        })
+                      }
+                    }}
+                    onMouseLeave={() => {
+                      // Mouse çıkınca duraklat (opsiyonel - kullanıcı deneyimine göre)
+                      const video = videoRefs[index].current
+                      if (video && !video.paused && videoStates[index].isInView) {
+                        // Sadece viewport dışındaysa duraklat, viewport içindeyse devam etsin
+                        if (!videoStates[index].isInView) {
+                          video.pause()
+                        }
+                      }
+                    }}
+                  >
                     {/* Loading State */}
                     {videoStates[index].isLoading && (
                       <div className="absolute inset-0 bg-gray-100 flex items-center justify-center z-20">
@@ -331,6 +375,18 @@ const VideoSection = () => {
                       onPlay={() => handleVideoPlay(index)}
                       onPause={() => handleVideoPause(index)}
                       onEnded={() => handleVideoEnded(index)}
+                      onLoadedData={() => {
+                        // Video tamamen yüklendiğinde viewport'taysa otomatik başlat
+                        if (videoStates[index].isInView) {
+                          const video = videoRefs[index].current
+                          if (video && video.paused) {
+                            video.muted = true
+                            video.play().catch(() => {
+                              console.log('Auto-play on load failed for video', index)
+                            })
+                          }
+                        }
+                      }}
                     >
                       {/* Video source sadece lazy loading ile yüklenecek */}
                       متصفحك لا يدعم تشغيل الفيديو
@@ -401,11 +457,13 @@ const VideoSection = () => {
                             : videoStates[index].hasError
                             ? '❌ خطأ'
                             : videoStates[index].isPlaying
-                            ? '⏸ مشغل'
+                            ? '⏸ مشغل تلقائياً'
                             : videoStates[index].isEnded
                             ? '🔄 انتهى'
+                            : videoStates[index].isLoaded && videoStates[index].isInView
+                            ? '▶ تشغيل تلقائي'
                             : videoStates[index].isLoaded
-                            ? '▶ اضغط للتشغيل'
+                            ? '💤 جاهز للتشغيل'
                             : '📱 اقترب للتحميل'
                           }
                         </div>
