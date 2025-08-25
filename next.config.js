@@ -15,6 +15,24 @@ const nextConfig = {
   swcMinify: true,
   experimental: {
     scrollRestoration: true,
+    largePageDataBytes: 128 * 100000, // 12.8MB for video support
+  },
+  // Video ve media optimizasyonları
+  webpack: (config, { isServer }) => {
+    // Video dosyalarını optimize et
+    config.module.rules.push({
+      test: /\.(mp4|webm|ogg|swf|ogv)$/,
+      use: {
+        loader: 'file-loader',
+        options: {
+          publicPath: '/_next/static/videos/',
+          outputPath: 'static/videos/',
+          esModule: false,
+        },
+      },
+    });
+    
+    return config;
   },
   async headers() {
     return [
@@ -45,6 +63,33 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Video dosyaları için cache optimizasyonu
+      {
+        source: '/:path*.mp4',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, s-maxage=86400', // 1 gün cache
+          },
+          {
+            key: 'Accept-Ranges',
+            value: 'bytes', // Video streaming için range requests
+          },
+        ],
+      },
+      {
+        source: '/:path*.(webm|ogg|ogv)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, s-maxage=86400',
+          },
+          {
+            key: 'Accept-Ranges',
+            value: 'bytes',
           },
         ],
       },

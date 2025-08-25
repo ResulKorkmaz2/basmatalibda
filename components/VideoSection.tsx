@@ -1,16 +1,17 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
-import { Play, Pause, Volume2, VolumeX, RotateCcw } from 'lucide-react'
+import { Play, Pause, Volume2, VolumeX, RotateCcw, Loader } from 'lucide-react'
 
 const VideoSection = () => {
   const [videoStates, setVideoStates] = useState([
-    { isPlaying: false, isMuted: true, isEnded: false },
-    { isPlaying: false, isMuted: true, isEnded: false }
+    { isPlaying: false, isMuted: true, isEnded: false, isLoaded: false, isInView: false, isLoading: false, hasError: false },
+    { isPlaying: false, isMuted: true, isEnded: false, isLoaded: false, isInView: false, isLoading: false, hasError: false }
   ])
   
   const videoRefs = [useRef<HTMLVideoElement>(null), useRef<HTMLVideoElement>(null)]
+  const containerRefs = [useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null)]
 
   const handlePlayPause = (index: number) => {
     const video = videoRefs[index].current
@@ -61,6 +62,118 @@ const VideoSection = () => {
       i === index ? { ...state, isPlaying: false, isEnded: true } : state
     ))
   }
+
+  // Intersection Observer for lazy loading
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const index = containerRefs.findIndex(ref => ref.current === entry.target)
+          if (index !== -1) {
+            if (entry.isIntersecting && !videoStates[index].isLoaded) {
+              setVideoStates(prev => prev.map((state, i) => 
+                i === index ? { ...state, isInView: true, isLoading: true } : state
+              ))
+              loadVideo(index)
+            }
+          }
+        })
+      },
+      {
+        threshold: 0.3, // Video %30'u görününce yükle
+        rootMargin: '50px' // 50px öncesinden hazırla
+      }
+    )
+
+    containerRefs.forEach(ref => {
+      if (ref.current) {
+        observer.observe(ref.current)
+      }
+    })
+
+    return () => {
+      containerRefs.forEach(ref => {
+        if (ref.current) {
+          observer.unobserve(ref.current)
+        }
+      })
+    }
+  }, [])
+
+  // Video yükleme fonksiyonu
+  const loadVideo = useCallback(async (index: number) => {
+    const video = videoRefs[index].current
+    if (!video || videoStates[index].isLoaded) return
+
+    try {
+      setVideoStates(prev => prev.map((state, i) => 
+        i === index ? { ...state, isLoading: true, hasError: false } : state
+      ))
+
+      // Video kaynağını ayarla
+      const videoSrc = videos[index].src
+      video.src = videoSrc
+      video.preload = 'metadata' // Sadece metadata yükle
+      
+      // Video metadata yüklenince
+      video.addEventListener('loadedmetadata', () => {
+        setVideoStates(prev => prev.map((state, i) => 
+          i === index ? { ...state, isLoaded: true, isLoading: false } : state
+        ))
+        
+        // Viewport'ta ise otomatik başlat
+        if (videoStates[index].isInView) {
+          setTimeout(() => {
+            video.play().catch(() => {
+              // Autoplay engellenmişse sessizce devam et
+              console.log('Autoplay prevented for video', index)
+            })
+          }, 500)
+        }
+      })
+
+      // Error handling
+      video.addEventListener('error', () => {
+        setVideoStates(prev => prev.map((state, i) => 
+          i === index ? { ...state, hasError: true, isLoading: false } : state
+        ))
+        console.error('Video loading error for video', index)
+      })
+
+      // Video tamamen yüklenince
+      video.addEventListener('canplaythrough', () => {
+        setVideoStates(prev => prev.map((state, i) => 
+          i === index ? { ...state, isLoading: false } : state
+        ))
+      })
+
+    } catch (error) {
+      console.error('Video loading failed:', error)
+      setVideoStates(prev => prev.map((state, i) => 
+        i === index ? { ...state, hasError: true, isLoading: false } : state
+      ))
+    }
+  }, [videoStates])
+
+  // Video play handling with performance optimization
+  const handlePlayPauseOptimized = useCallback((index: number) => {
+    const video = videoRefs[index].current
+    if (!video || !videoStates[index].isLoaded) {
+      // Video henüz yüklenmemişse, yükle ve sonra oynat
+      if (!videoStates[index].isLoading) {
+        loadVideo(index)
+      }
+      return
+    }
+
+    if (video.paused) {
+      video.play().catch(() => {
+        console.log('Play failed for video', index)
+      })
+    } else {
+      video.pause()
+    }
+  }, [videoStates, loadVideo])
 
   const videos = [
     {
@@ -169,6 +282,7 @@ const VideoSection = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: index * 0.3 }}
               className="group relative"
+              ref={containerRefs[index]}
             >
               {/* Video Container */}
               <div className="relative bg-white/90 backdrop-blur-lg rounded-3xl border border-white/30 shadow-2xl overflow-hidden">
@@ -178,19 +292,47 @@ const VideoSection = () => {
                 {/* Video */}
                 <div className="relative z-10 p-6">
                   <div className="relative rounded-2xl overflow-hidden group/video">
+                    {/* Loading State */}
+                    {videoStates[index].isLoading && (
+                      <div className="absolute inset-0 bg-gray-100 flex items-center justify-center z-20">
+                        <div className="text-center">
+                          <Loader className="w-12 h-12 text-primary-600 animate-spin mx-auto mb-4" />
+                          <p className="text-gray-600 text-sm">جاري تحميل الفيديو...</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Error State */}
+                    {videoStates[index].hasError && (
+                      <div className="absolute inset-0 bg-gray-100 flex items-center justify-center z-20">
+                        <div className="text-center p-8">
+                          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span className="text-2xl">⚠️</span>
+                          </div>
+                          <p className="text-gray-600 text-sm mb-2">خطأ في تحميل الفيديو</p>
+                          <button 
+                            onClick={() => loadVideo(index)}
+                            className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm hover:bg-primary-700 transition-colors"
+                          >
+                            إعادة المحاولة
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
                     <video
                       ref={videoRefs[index]}
                       className="w-full h-64 sm:h-80 lg:h-96 object-cover"
-                      autoPlay
                       muted
                       loop
                       playsInline
+                      preload="none"
                       poster="/hero1.jpg"
                       onPlay={() => handleVideoPlay(index)}
                       onPause={() => handleVideoPause(index)}
                       onEnded={() => handleVideoEnded(index)}
                     >
-                      <source src={video.src} type="video/mp4" />
+                      {/* Video source sadece lazy loading ile yüklenecek */}
                       متصفحك لا يدعم تشغيل الفيديو
                     </video>
 
@@ -200,10 +342,13 @@ const VideoSection = () => {
                         <div className="flex items-center space-x-4 space-x-reverse">
                           {/* Play/Pause Button */}
                           <button
-                            onClick={() => handlePlayPause(index)}
-                            className="w-16 h-16 bg-white/95 backdrop-blur-lg hover:bg-white rounded-full flex items-center justify-center shadow-2xl transform hover:scale-110 transition-all duration-300 border border-white/50"
+                            onClick={() => handlePlayPauseOptimized(index)}
+                            disabled={videoStates[index].isLoading}
+                            className="w-16 h-16 bg-white/95 backdrop-blur-lg hover:bg-white rounded-full flex items-center justify-center shadow-2xl transform hover:scale-110 transition-all duration-300 border border-white/50 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
-                            {videoStates[index].isPlaying ? (
+                            {videoStates[index].isLoading ? (
+                              <Loader className="w-8 h-8 text-red-600 animate-spin" />
+                            ) : videoStates[index].isPlaying ? (
                               <Pause className="w-8 h-8 text-red-600" />
                             ) : (
                               <Play className="w-8 h-8 text-red-600 mr-1" />
@@ -239,17 +384,29 @@ const VideoSection = () => {
                       {/* Status Badge */}
                       <div className="absolute top-6 left-6">
                         <div className={`px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-lg border transition-all duration-300 ${
-                          videoStates[index].isPlaying
+                          videoStates[index].isLoading
+                            ? 'bg-yellow-500/90 text-white border-yellow-400/50'
+                            : videoStates[index].hasError
                             ? 'bg-red-500/90 text-white border-red-400/50'
+                            : videoStates[index].isPlaying
+                            ? 'bg-green-500/90 text-white border-green-400/50'
                             : videoStates[index].isEnded
                             ? 'bg-blue-500/90 text-white border-blue-400/50'
-                            : 'bg-white/90 text-gray-700 border-white/50'
+                            : videoStates[index].isLoaded
+                            ? 'bg-white/90 text-gray-700 border-white/50'
+                            : 'bg-gray-500/90 text-white border-gray-400/50'
                         }`}>
-                          {videoStates[index].isPlaying
+                          {videoStates[index].isLoading
+                            ? '⏳ يتم التحميل'
+                            : videoStates[index].hasError
+                            ? '❌ خطأ'
+                            : videoStates[index].isPlaying
                             ? '⏸ مشغل'
                             : videoStates[index].isEnded
                             ? '🔄 انتهى'
-                            : '▶ اضغط للتشغيل'
+                            : videoStates[index].isLoaded
+                            ? '▶ اضغط للتشغيل'
+                            : '📱 اقترب للتحميل'
                           }
                         </div>
                       </div>
@@ -283,17 +440,37 @@ const VideoSection = () => {
 
                     {/* Video Stats */}
                     <div className="grid grid-cols-3 gap-3 mt-4">
-                      <div className="bg-red-50 rounded-xl p-3">
-                        <div className="text-lg font-bold text-red-600">HD</div>
-                        <div className="text-xs text-red-700">جودة عالية</div>
+                      <div className={`rounded-xl p-3 transition-colors duration-300 ${
+                        videoStates[index].isLoaded ? 'bg-green-50' : 'bg-gray-50'
+                      }`}>
+                        <div className={`text-lg font-bold ${
+                          videoStates[index].isLoaded ? 'text-green-600' : 'text-gray-400'
+                        }`}>
+                          {videoStates[index].isLoaded ? 'HD' : '⏳'}
+                        </div>
+                        <div className={`text-xs ${
+                          videoStates[index].isLoaded ? 'text-green-700' : 'text-gray-500'
+                        }`}>
+                          {videoStates[index].isLoaded ? 'جودة عالية' : 'تحميل...'}
+                        </div>
                       </div>
                       <div className="bg-blue-50 rounded-xl p-3">
                         <div className="text-lg font-bold text-blue-600">2024</div>
                         <div className="text-xs text-blue-700">أحدث الأعمال</div>
                       </div>
-                      <div className="bg-green-50 rounded-xl p-3">
-                        <div className="text-lg font-bold text-green-600">Live</div>
-                        <div className="text-xs text-green-700">أعمال حقيقية</div>
+                      <div className={`rounded-xl p-3 transition-colors duration-300 ${
+                        videoStates[index].isInView ? 'bg-orange-50' : 'bg-gray-50'
+                      }`}>
+                        <div className={`text-lg font-bold ${
+                          videoStates[index].isInView ? 'text-orange-600' : 'text-gray-400'
+                        }`}>
+                          {videoStates[index].isInView ? 'Live' : 'Soon'}
+                        </div>
+                        <div className={`text-xs ${
+                          videoStates[index].isInView ? 'text-orange-700' : 'text-gray-500'
+                        }`}>
+                          {videoStates[index].isInView ? 'أعمال حقيقية' : 'قريباً'}
+                        </div>
                       </div>
                     </div>
                   </div>
