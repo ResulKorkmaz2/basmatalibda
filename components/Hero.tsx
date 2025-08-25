@@ -157,13 +157,13 @@ const Hero = () => {
               transition={{ delay: 1, duration: 0.6 }}
               className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-3 sm:space-y-0 sm:space-x-4 sm:space-x-reverse mb-6 lg:mb-8"
             >
-              <button
-                onClick={scrollToContact}
+              <a
+                href="tel:0573677385"
                 className="w-full sm:w-auto btn-primary flex items-center justify-center space-x-2 space-x-reverse px-6 py-4 font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
               >
                 <Phone className="w-5 h-5" />
                 <span>اتصل الآن: 0573677385</span>
-              </button>
+              </a>
 
               <button
                 onClick={scrollToServices}

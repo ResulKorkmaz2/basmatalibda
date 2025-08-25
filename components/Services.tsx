@@ -1,6 +1,6 @@
 'use client'
 
-import { Paintbrush, Hammer, Palette, Brush } from 'lucide-react'
+import { Paintbrush, Hammer, Palette, Brush, Phone } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -372,12 +372,13 @@ const Services = () => {
                 transition={{ duration: 0.8, delay: 2 }}
                 className="text-center mt-12"
               >
-                <div className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white rounded-2xl font-bold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 group">
-                  <span className="text-lg">تواصل معنا الآن</span>
-                  <svg className="w-6 h-6 mr-3 group-hover:transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </div>
+                <a
+                  href="tel:0573677385"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white rounded-2xl font-bold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 group"
+                >
+                  <Phone className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                  <span className="text-lg">اتصل الآن: 0573677385</span>
+                </a>
               </motion.div>
             </div>
           </div>
