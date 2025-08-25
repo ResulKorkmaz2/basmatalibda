@@ -114,7 +114,7 @@ const Contact = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="space-y-8"
+            className="flex flex-col space-y-8 h-full"
           >
             <div className="text-center lg:text-right">
               <h3 className="text-3xl font-bold text-gray-900 mb-4">
@@ -177,7 +177,7 @@ const Contact = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="relative overflow-hidden"
+              className="relative overflow-hidden flex-1"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-yellow-100/50 to-orange-100/50 rounded-3xl"></div>
               <div className="relative bg-white/70 backdrop-blur-lg border border-white/20 p-8 rounded-3xl shadow-xl">
@@ -367,7 +367,7 @@ const Contact = () => {
           </motion.div>
         </div>
 
-        {/* Quick Contact Buttons */}
+        {/* Professional Social Media Section */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -376,152 +376,252 @@ const Contact = () => {
           className="mt-20"
         >
           <div className="relative">
-            {/* Background Elements */}
-            <div className="absolute inset-0 overflow-hidden rounded-3xl">
-              <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-pink-300 to-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
-              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse animation-delay-2000"></div>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-br from-green-300 to-emerald-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
+            {/* Advanced Background Effects */}
+            <div className="absolute inset-0 overflow-hidden rounded-[2rem]">
+              <div className="absolute -top-20 -right-20 w-60 h-60 bg-gradient-to-br from-blue-400/30 to-purple-600/30 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
+              <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-gradient-to-br from-pink-400/30 to-red-500/30 rounded-full mix-blend-multiply filter blur-3xl animate-pulse animation-delay-2000"></div>
+              <div className="absolute top-1/3 left-1/3 w-40 h-40 bg-gradient-to-br from-yellow-400/20 to-orange-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-pulse animation-delay-4000"></div>
+              <div className="absolute bottom-1/3 right-1/3 w-40 h-40 bg-gradient-to-br from-green-400/20 to-emerald-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-pulse animation-delay-6000"></div>
             </div>
 
-            <div className="relative bg-white/90 backdrop-blur-xl border border-white/40 rounded-3xl p-12 shadow-2xl">
-              {/* Header */}
-              <div className="text-center mb-10">
-                <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-3xl shadow-2xl mb-6 transform -rotate-3 hover:rotate-0 transition-transform duration-500">
-                  <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center">
-                    <Phone className="w-7 h-7 text-white" />
-                  </div>
-                </div>
-                
-                <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent mb-4">
-                  حساباتنا على وسائل التواصل
-                </h3>
-                
-                <p className="text-xl text-gray-600 mb-6 max-w-2xl mx-auto leading-relaxed">
-                  فريقنا المتخصص متاح على مدار الساعة لتقديم الاستشارة الفورية والإجابة على جميع استفساراتكم
-                </p>
-
-                {/* Trust Indicators */}
-                <div className="flex items-center justify-center space-x-6 space-x-reverse mb-8">
-                  <div className="flex items-center space-x-2 space-x-reverse px-4 py-2 bg-green-50 border border-green-200 rounded-full">
-                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-green-700 font-semibold text-sm">متاح الآن</span>
-                  </div>
-                  <div className="flex items-center space-x-2 space-x-reverse px-4 py-2 bg-blue-50 border border-blue-200 rounded-full">
-                    <Clock className="w-4 h-4 text-blue-600" />
-                    <span className="text-blue-700 font-semibold text-sm">رد خلال دقائق</span>
-                  </div>
-                  <div className="flex items-center space-x-2 space-x-reverse px-4 py-2 bg-yellow-50 border border-yellow-200 rounded-full">
-                    <Star className="w-4 h-4 text-yellow-600" />
-                    <span className="text-yellow-700 font-semibold text-sm">خدمة مميزة</span>
-                  </div>
-                </div>
-              </div>
+            {/* Main Container */}
+            <div className="relative bg-white/95 backdrop-blur-2xl border border-white/50 rounded-[2rem] shadow-2xl overflow-hidden">
+              {/* Gradient Border Effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 rounded-[2rem]"></div>
               
-              {/* Social Media Buttons */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-                {/* Instagram */}
-                <motion.div
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="group relative"
-                >
-                  <a
-                    href="https://www.instagram.com/mqwlt4823"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative block p-6 bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300"
-                  >
-                    <div className="text-center">
-                      <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
-                        <Instagram className="w-7 h-7 text-white" />
-                      </div>
-                      <h4 className="text-white font-bold text-sm mb-1">Instagram</h4>
-                      <p className="text-white/80 text-xs">@mqwlt4823</p>
-                    </div>
-                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-400 rounded-full animate-pulse"></div>
-                  </a>
-                </motion.div>
-
-                {/* TikTok */}
-                <motion.div
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="group relative"
-                >
-                  <a
-                    href="https://www.tiktok.com/@user31262616554342"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative block p-6 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300"
-                  >
-                    <div className="text-center">
-                      <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
-                        <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+              <div className="relative p-8 md:p-12 lg:p-16">
+                {/* Premium Header */}
+                <div className="text-center mb-12">
+                  {/* Floating Icon Container */}
+                  <div className="relative inline-block mb-8">
+                    <div className="w-24 h-24 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-[1.5rem] shadow-2xl flex items-center justify-center transform -rotate-3 hover:rotate-0 transition-all duration-700 hover:scale-110">
+                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+                        <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                         </svg>
                       </div>
-                      <h4 className="text-white font-bold text-sm mb-1">TikTok</h4>
-                      <p className="text-white/80 text-xs">@user31262...</p>
                     </div>
-                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-400 rounded-full animate-pulse"></div>
-                  </a>
-                </motion.div>
-
-                {/* Facebook */}
-                <motion.div
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="group relative"
-                >
-                  <a
-                    href="https://www.facebook.com/profile.php?id=61563031801396"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative block p-6 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300"
-                  >
-                    <div className="text-center">
-                      <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
-                        <Facebook className="w-7 h-7 text-white" />
-                      </div>
-                      <h4 className="text-white font-bold text-sm mb-1">Facebook</h4>
-                      <p className="text-white/80 text-xs">بصمة لابداع</p>
+                    {/* Floating Badge */}
+                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full border-4 border-white shadow-lg flex items-center justify-center animate-bounce">
+                      <span className="text-white text-xs font-bold">+</span>
                     </div>
-                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full animate-pulse"></div>
-                  </a>
-                </motion.div>
+                  </div>
+                  
+                  {/* Premium Title */}
+                  <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                    <span className="bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent">
+                      حساباتنا على وسائل التواصل
+                    </span>
+                  </h3>
+                  
+                  {/* Elegant Description */}
+                  <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed font-light">
+                    تواصلوا معنا عبر منصاتنا الرقمية لمتابعة أحدث أعمالنا والحصول على عروض حصرية
+                  </p>
 
-                {/* Snapchat */}
-                <motion.div
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="group relative"
-                >
-                  <a
-                    href="https://www.snapchat.com/add/bwbsllsyd"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative block p-6 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300"
-                  >
-                    <div className="text-center">
-                      <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
-                        <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 2c-2.5 0-3 2.2-3 3.8 0 3-1.5 4.2-3 4.2-.8 0-1 .3-1 .6s.2.6 1 .6c.8 0 1.8.8 1.8 1.6 0 1.2-2 1.2-2 2.4 0 .8.8 1.8 2.4 1.8.8 0 1.6-.2 2-.4.2.4.6.8 1.2.8.6 0 1-.4 1.2-.8.4.2 1.2.4 2 .4 1.6 0 2.4-1 2.4-1.8 0-1.2-2-1.2-2-2.4 0-.8 1-1.6 1.8-1.6.8 0 1-.3 1-.6s-.2-.6-1-.6c-1.5 0-3-1.2-3-4.2 0-1.6-.5-3.8-3-3.8z"/>
-                        </svg>
-                      </div>
-                      <h4 className="text-white font-bold text-sm mb-1">Snapchat</h4>
-                      <p className="text-white/80 text-xs">@bwbsllsyd</p>
+                  {/* Premium Trust Indicators */}
+                  <div className="flex flex-wrap items-center justify-center gap-4 mb-12">
+                    <div className="flex items-center space-x-3 space-x-reverse px-6 py-3 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200/50 rounded-full shadow-sm">
+                      <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse shadow-sm"></div>
+                      <span className="text-green-700 font-semibold">نشارك يومياً</span>
                     </div>
-                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-400 rounded-full animate-pulse"></div>
-                  </a>
-                </motion.div>
-              </div>
-
-              {/* Bottom CTA */}
-              <div className="mt-10 text-center">
-                <div className="inline-flex items-center space-x-3 space-x-reverse px-6 py-3 bg-gradient-to-r from-gray-50 to-blue-50 border border-gray-200 rounded-2xl">
-                  <Star className="w-6 h-6 text-yellow-500" />
-                  <span className="text-gray-700 font-semibold">شاهدوا مشاريعنا المتميزة والعروض الحصرية</span>
+                    <div className="flex items-center space-x-3 space-x-reverse px-6 py-3 bg-gradient-to-r from-blue-50 to-sky-50 border border-blue-200/50 rounded-full shadow-sm">
+                      <Star className="w-4 h-4 text-blue-600" />
+                      <span className="text-blue-700 font-semibold">محتوى حصري</span>
+                    </div>
+                    <div className="flex items-center space-x-3 space-x-reverse px-6 py-3 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200/50 rounded-full shadow-sm">
+                      <CheckCircle className="w-4 h-4 text-purple-600" />
+                      <span className="text-purple-700 font-semibold">تفاعل مباشر</span>
+                    </div>
+                  </div>
                 </div>
+                
+                {/* Premium Social Media Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                  {/* Instagram - Premium Card */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.1 }}
+                    whileHover={{ y: -8, scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="group relative"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-3xl opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-400/20 via-pink-400/20 to-red-400/20 rounded-3xl blur-xl transform scale-105 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    
+                    <a
+                      href="https://www.instagram.com/mqwlt4823"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative block p-8 backdrop-blur-sm rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500"
+                    >
+                      <div className="text-center">
+                        {/* Premium Icon Container */}
+                        <div className="relative mx-auto mb-6">
+                          <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                            <Instagram className="w-9 h-9 text-white" />
+                          </div>
+                          <div className="absolute -top-2 -right-2 w-6 h-6 bg-white/30 backdrop-blur-sm rounded-full border-2 border-white/50 animate-pulse"></div>
+                        </div>
+                        
+                        {/* Content */}
+                        <h4 className="text-white font-bold text-lg mb-2 group-hover:scale-105 transition-transform duration-300">Instagram</h4>
+                        <p className="text-white/90 text-sm font-medium mb-3">@mqwlt4823</p>
+                        <div className="text-white/80 text-xs">مشاريعنا اليومية</div>
+                        
+                        {/* Premium Interaction Indicator */}
+                        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="w-8 h-1 bg-white/50 rounded-full"></div>
+                        </div>
+                      </div>
+                    </a>
+                  </motion.div>
+
+                  {/* TikTok - Premium Card */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    whileHover={{ y: -8, scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="group relative"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-3xl opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-gray-700/20 via-gray-600/20 to-black/20 rounded-3xl blur-xl transform scale-105 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    
+                    <a
+                      href="https://www.tiktok.com/@user31262616554342"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative block p-8 backdrop-blur-sm rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500"
+                    >
+                      <div className="text-center">
+                        {/* Premium Icon Container */}
+                        <div className="relative mx-auto mb-6">
+                          <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                            <svg className="w-9 h-9 text-white" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                            </svg>
+                          </div>
+                          <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500/80 backdrop-blur-sm rounded-full border-2 border-white/50 animate-pulse"></div>
+                        </div>
+                        
+                        {/* Content */}
+                        <h4 className="text-white font-bold text-lg mb-2 group-hover:scale-105 transition-transform duration-300">TikTok</h4>
+                        <p className="text-white/90 text-sm font-medium mb-3">@user31262...</p>
+                        <div className="text-white/80 text-xs">فيديوهات قصيرة</div>
+                        
+                        {/* Premium Interaction Indicator */}
+                        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="w-8 h-1 bg-white/50 rounded-full"></div>
+                        </div>
+                      </div>
+                    </a>
+                  </motion.div>
+
+                  {/* Facebook - Premium Card */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    whileHover={{ y: -8, scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="group relative"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-700 rounded-3xl opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-blue-500/20 rounded-3xl blur-xl transform scale-105 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    
+                    <a
+                      href="https://www.facebook.com/profile.php?id=61563031801396"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative block p-8 backdrop-blur-sm rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500"
+                    >
+                      <div className="text-center">
+                        {/* Premium Icon Container */}
+                        <div className="relative mx-auto mb-6">
+                          <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                            <Facebook className="w-9 h-9 text-white" />
+                          </div>
+                          <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500/80 backdrop-blur-sm rounded-full border-2 border-white/50 animate-pulse"></div>
+                        </div>
+                        
+                        {/* Content */}
+                        <h4 className="text-white font-bold text-lg mb-2 group-hover:scale-105 transition-transform duration-300">Facebook</h4>
+                        <p className="text-white/90 text-sm font-medium mb-3">بصمة لابداع</p>
+                        <div className="text-white/80 text-xs">صفحتنا الرسمية</div>
+                        
+                        {/* Premium Interaction Indicator */}
+                        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="w-8 h-1 bg-white/50 rounded-full"></div>
+                        </div>
+                      </div>
+                    </a>
+                  </motion.div>
+
+                  {/* Snapchat - Premium Card */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                    whileHover={{ y: -8, scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="group relative"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-3xl opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-300/20 to-yellow-400/20 rounded-3xl blur-xl transform scale-105 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    
+                    <a
+                      href="https://www.snapchat.com/add/bwbsllsyd"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative block p-8 backdrop-blur-sm rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500"
+                    >
+                      <div className="text-center">
+                        {/* Premium Icon Container */}
+                        <div className="relative mx-auto mb-6">
+                          <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                            <svg className="w-9 h-9 text-white" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 2c-2.5 0-3 2.2-3 3.8 0 3-1.5 4.2-3 4.2-.8 0-1 .3-1 .6s.2.6 1 .6c.8 0 1.8.8 1.8 1.6 0 1.2-2 1.2-2 2.4 0 .8.8 1.8 2.4 1.8.8 0 1.6-.2 2-.4.2.4.6.8 1.2.8.6 0 1-.4 1.2-.8.4.2 1.2.4 2 .4 1.6 0 2.4-1 2.4-1.8 0-1.2-2-1.2-2-2.4 0-.8 1-1.6 1.8-1.6.8 0 1-.3 1-.6s-.2-.6-1-.6c-1.5 0-3-1.2-3-4.2 0-1.6-.5-3.8-3-3.8z"/>
+                            </svg>
+                          </div>
+                          <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500/80 backdrop-blur-sm rounded-full border-2 border-white/50 animate-pulse"></div>
+                        </div>
+                        
+                        {/* Content */}
+                        <h4 className="text-white font-bold text-lg mb-2 group-hover:scale-105 transition-transform duration-300">Snapchat</h4>
+                        <p className="text-white/90 text-sm font-medium mb-3">@bwbsllsyd</p>
+                        <div className="text-white/80 text-xs">لحظات يومية</div>
+                        
+                        {/* Premium Interaction Indicator */}
+                        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="w-8 h-1 bg-white/50 rounded-full"></div>
+                        </div>
+                      </div>
+                    </a>
+                  </motion.div>
+                </div>
+
+                {/* Premium Bottom CTA */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                  className="mt-12 text-center"
+                >
+                  <div className="inline-flex items-center space-x-4 space-x-reverse px-8 py-4 bg-gradient-to-r from-gray-50/80 via-white/80 to-blue-50/80 backdrop-blur-sm border border-white/30 rounded-2xl shadow-lg">
+                    <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-sm">
+                      <Star className="w-5 h-5 text-white" />
+                    </div>
+                    <span className="text-gray-700 font-semibold text-lg">شاهدوا مشاريعنا المتميزة والعروض الحصرية</span>
+                  </div>
+                </motion.div>
               </div>
             </div>
           </div>
