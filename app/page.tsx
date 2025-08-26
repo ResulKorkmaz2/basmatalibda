@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
+import CompanyInfo from '@/components/CompanyInfo'
 import Services from '@/components/Services'
 import VideoSection from '@/components/VideoSection'
 import About from '@/components/About'
@@ -28,6 +29,7 @@ export default function Home() {
     <main className="min-h-screen">
       <Header />
       <Hero />
+      <CompanyInfo />
       <Services />
       <VideoSection />
       <About />
