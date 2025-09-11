@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, MessageCircle, ExternalLink, Sparkles } from 'lucide-react'
-import Image from 'next/image'
+import { X, MessageCircle, Globe, Check, Rocket } from 'lucide-react'
 
 const DeveloperPopup = () => {
   const [isVisible, setIsVisible] = useState(false)
@@ -38,6 +37,13 @@ const DeveloperPopup = () => {
     window.open('https://www.falconprodigital.com', '_blank')
   }
 
+  const features = [
+    'تصميم حديث',
+    'SEO محسن', 
+    'متجاوب مع الجوال',
+    'سريع التحميل'
+  ]
+
   return (
     <AnimatePresence>
       {isVisible && (
@@ -45,7 +51,7 @@ const DeveloperPopup = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
           onClick={handleClose}
         >
           <motion.div
@@ -53,14 +59,10 @@ const DeveloperPopup = () => {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.8, opacity: 0, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-6 sm:p-8 max-w-md w-full mx-4"
+            className="relative bg-white rounded-3xl shadow-2xl max-w-md w-full mx-4 overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Decorative Elements */}
-            <div className="absolute -top-2 -right-2 w-16 h-16 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full blur-xl opacity-20"></div>
-            <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-gradient-to-tr from-green-400 to-blue-500 rounded-full blur-xl opacity-15"></div>
-
-            {/* Close Button (5 saniye sonra görünür) */}
+            {/* Close Button */}
             <AnimatePresence>
               {showCloseButton && (
                 <motion.button
@@ -69,101 +71,162 @@ const DeveloperPopup = () => {
                   exit={{ scale: 0, opacity: 0 }}
                   transition={{ type: "spring", damping: 20, stiffness: 300 }}
                   onClick={handleClose}
-                  className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 transition-all duration-300 hover:scale-110"
+                  className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/90 hover:bg-white text-gray-600 hover:text-gray-800 transition-all duration-300 hover:scale-110 shadow-lg"
                 >
                   <X className="w-5 h-5" />
                 </motion.button>
               )}
             </AnimatePresence>
 
-            {/* Header */}
-            <div className="text-center mb-6">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, type: "spring", damping: 20, stiffness: 300 }}
-                className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl mb-4 relative"
-              >
-                <Sparkles className="w-8 h-8 text-white" />
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl blur opacity-50 animate-pulse"></div>
-              </motion.div>
+            {/* Header with Gradient Background */}
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-700 text-white p-6 text-center relative overflow-hidden"
+            >
+              {/* Decorative Elements */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
               
-              <motion.h3
+              <motion.div
+                initial={{ scale: 0, rotate: -10 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ delay: 0.3, type: "spring", damping: 20, stiffness: 300 }}
+                className="inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl mb-3 relative"
+              >
+                <Rocket className="w-8 h-8 text-white" />
+              </motion.div>
+
+              <motion.h2
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-xl sm:text-2xl font-bold text-gray-900 mb-2"
+                transition={{ delay: 0.4 }}
+                className="text-2xl font-bold mb-2"
               >
-                مرحباً بك! 👋
-              </motion.h3>
+                Falcon Pro Digital
+              </motion.h2>
               
               <motion.p
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="text-gray-600 text-sm sm:text-base leading-relaxed"
+                transition={{ delay: 0.5 }}
+                className="text-white/90 text-sm"
               >
-                هذا الموقع تم تطويره وتصميمه بواسطة
+                فرع من Aptiro LLC
               </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.6 }}
+                className="mt-4 bg-white/10 backdrop-blur-sm rounded-2xl p-3"
+              >
+                <p className="text-sm font-medium">🏆 أكبر شركة رقمية في الخليج</p>
+              </motion.div>
+            </motion.div>
+
+            {/* Content */}
+            <div className="p-6">
+              {/* Main Message */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 }}
+                className="text-center mb-6"
+              >
+                <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center justify-center">
+                  💻 تصميم وتطوير هذا الموقع
+                </h3>
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  تم تصميم وتطوير موقع مؤسسة مكارم الجنوب بواسطة فريق{' '}
+                  <span className="font-bold text-blue-600">Falcon Pro Digital</span>
+                </p>
+              </motion.div>
+
+              {/* Features */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+                className="grid grid-cols-2 gap-3 mb-6"
+              >
+                {features.map((feature, index) => (
+                  <motion.div
+                    key={feature}
+                    initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.9 + index * 0.1 }}
+                    className="flex items-center space-x-2 space-x-reverse text-sm"
+                  >
+                    <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Check className="w-3 h-3 text-white" />
+                    </div>
+                    <span className="text-gray-700 font-medium">{feature}</span>
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              {/* Question */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.2 }}
+                className="text-center mb-4"
+              >
+                <h4 className="text-lg font-bold text-gray-900 mb-2">
+                  🌟 هل تريد موقعاً مثل هذا؟
+                </h4>
+                <p className="text-gray-600 text-sm">
+                  احصل على موقع احترافي يليق بعلامتك التجارية
+                </p>
+              </motion.div>
+
+              {/* Action Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.3 }}
+                className="space-y-3"
+              >
+                <button
+                  onClick={handleWhatsApp}
+                  className="group w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-3 space-x-reverse"
+                >
+                  <MessageCircle className="w-5 h-5 group-hover:animate-bounce" />
+                  <div>
+                    <div className="text-base">تواصل واتساب</div>
+                    <div className="text-sm opacity-90">+1 (505) 373-6924</div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={handleWebsite}
+                  className="w-full flex items-center justify-center space-x-2 space-x-reverse text-blue-600 hover:text-blue-700 font-medium py-3 transition-colors duration-300"
+                >
+                  <Globe className="w-5 h-5" />
+                  <span>falconprodigital.com</span>
+                </button>
+              </motion.div>
+
+              {/* Footer */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.4 }}
+                className="text-center mt-4 pt-4 border-t border-gray-100"
+              >
+                <p className="text-xs text-gray-500 flex items-center justify-center space-x-1 space-x-reverse">
+                  <span>🇺🇸</span>
+                  <span>فرع من شركة Aptiro LLC الأمريكية</span>
+                </p>
+                {!showCloseButton && (
+                  <p className="text-xs text-gray-400 mt-2">
+                    سيظهر زر الإغلاق خلال 5 ثوان...
+                  </p>
+                )}
+              </motion.div>
             </div>
-
-            {/* Developer Info */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-4 mb-6 border border-blue-100"
-            >
-              <div className="flex items-center space-x-3 space-x-reverse mb-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                  <ExternalLink className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-gray-900 text-sm sm:text-base">Falcon Pro Digital</h4>
-                  <p className="text-xs text-gray-500">Web Development & Design</p>
-                </div>
-              </div>
-              
-              <button
-                onClick={handleWebsite}
-                className="w-full text-center text-blue-600 hover:text-blue-700 font-medium text-sm sm:text-base transition-colors duration-300 hover:underline"
-              >
-                www.falconprodigital.com
-              </button>
-            </motion.div>
-
-            {/* WhatsApp Contact */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="space-y-3"
-            >
-              <p className="text-center text-gray-700 text-sm sm:text-base font-medium">
-                للتواصل والاستفسار
-              </p>
-              
-              <button
-                onClick={handleWhatsApp}
-                className="group w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-3 space-x-reverse"
-              >
-                <MessageCircle className="w-6 h-6 group-hover:animate-bounce" />
-                <div className="text-right">
-                  <div className="text-base sm:text-lg">WhatsApp</div>
-                  <div className="text-sm opacity-90">+1 (505) 373‑6924</div>
-                </div>
-              </button>
-            </motion.div>
-
-            {/* Bottom Note */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-              className="text-center text-xs text-gray-500 mt-4"
-            >
-              {!showCloseButton && "سيظهر زر الإغلاق خلال 5 ثوان..."}
-            </motion.p>
           </motion.div>
         </motion.div>
       )}
