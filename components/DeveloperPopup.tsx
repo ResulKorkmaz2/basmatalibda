@@ -6,7 +6,7 @@ import { X, MessageCircle, Globe, Check, Rocket } from 'lucide-react'
 
 const DeveloperPopup = () => {
   const [isVisible, setIsVisible] = useState(false)
-  const [showCloseButton, setShowCloseButton] = useState(false)
+  const [closeButtonActive, setCloseButtonActive] = useState(false)
 
   useEffect(() => {
     // Popup'ı 1 saniye sonra göster
@@ -14,9 +14,9 @@ const DeveloperPopup = () => {
       setIsVisible(true)
     }, 1000)
 
-    // 5 saniye sonra kapatma butonunu göster
+    // 5 saniye sonra kapatma butonunu aktif yap
     const closeButtonTimer = setTimeout(() => {
-      setShowCloseButton(true)
+      setCloseButtonActive(true)
     }, 6000)
 
     return () => {
@@ -26,7 +26,10 @@ const DeveloperPopup = () => {
   }, [])
 
   const handleClose = () => {
-    setIsVisible(false)
+    // Sadece kapatma butonu aktifken kapanabilir
+    if (closeButtonActive) {
+      setIsVisible(false)
+    }
   }
 
   const handleWhatsApp = () => {
@@ -52,26 +55,25 @@ const DeveloperPopup = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
-          onClick={handleClose}
         >
           <motion.div
             initial={{ scale: 0.8, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.8, opacity: 0, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative bg-white rounded-3xl shadow-2xl max-w-md w-full mx-4 overflow-hidden"
+            className="relative bg-white rounded-3xl shadow-2xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <AnimatePresence>
-              {showCloseButton && (
+              {closeButtonActive && (
                 <motion.button
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0, opacity: 0 }}
                   transition={{ type: "spring", damping: 20, stiffness: 300 }}
                   onClick={handleClose}
-                  className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/90 hover:bg-white text-gray-600 hover:text-gray-800 transition-all duration-300 hover:scale-110 shadow-lg"
+                  className="absolute top-4 right-4 z-10 p-3 sm:p-2 rounded-full bg-white/90 hover:bg-white text-gray-600 hover:text-gray-800 transition-all duration-300 hover:scale-110 shadow-lg cursor-pointer touch-manipulation"
                 >
                   <X className="w-5 h-5" />
                 </motion.button>
@@ -191,7 +193,7 @@ const DeveloperPopup = () => {
               >
                 <button
                   onClick={handleWhatsApp}
-                  className="group w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-3 space-x-reverse"
+                  className="group w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-3 space-x-reverse touch-manipulation min-h-[60px] active:scale-95"
                 >
                   <MessageCircle className="w-5 h-5 group-hover:animate-bounce" />
                   <div>
@@ -202,7 +204,7 @@ const DeveloperPopup = () => {
 
                 <button
                   onClick={handleWebsite}
-                  className="w-full flex items-center justify-center space-x-2 space-x-reverse text-blue-600 hover:text-blue-700 font-medium py-3 transition-colors duration-300"
+                  className="w-full flex items-center justify-center space-x-2 space-x-reverse text-blue-600 hover:text-blue-700 font-medium py-3 transition-colors duration-300 touch-manipulation min-h-[48px] active:scale-95"
                 >
                   <Globe className="w-5 h-5" />
                   <span>falconprodigital.com</span>
@@ -220,7 +222,7 @@ const DeveloperPopup = () => {
                   <span>🇺🇸</span>
                   <span>فرع من شركة Aptiro LLC الأمريكية</span>
                 </p>
-                {!showCloseButton && (
+                {!closeButtonActive && (
                   <p className="text-xs text-gray-400 mt-2">
                     سيظهر زر الإغلاق خلال 5 ثوان...
                   </p>
