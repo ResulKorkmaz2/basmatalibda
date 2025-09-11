@@ -9,6 +9,7 @@ import About from '@/components/About'
 import WhyUs from '@/components/WhyUs'
 import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
+import DeveloperPopup from '@/components/DeveloperPopup'
 
 export default function Home() {
   useEffect(() => {
@@ -26,6 +27,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen">
+      <DeveloperPopup />
       <Header />
       <Hero />
       <Services />
